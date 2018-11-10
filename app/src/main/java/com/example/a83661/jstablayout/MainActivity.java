@@ -21,11 +21,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        titles.add("电视盒子");
+        titles.add("折叠自行车把手");
+        titles.add("鼠标垫");
+        titles.add("伞");
         titles.add("手机");
-        titles.add("子弹头");
+        titles.add("电视盒子");
         titles.add("书籍");
-        titles.add("鼠标");
+        titles.add("子弹头");
         tb1 = findViewById(R.id.tb1);
         tb2 = findViewById(R.id.tb2);
         vp1 = findViewById(R.id.vp1);

@@ -12,6 +12,7 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
@@ -70,7 +71,7 @@ public class JSTabLayout extends HorizontalScrollView {
     private static final int DEFAULT_HEIGHT_WITH_TEXT_ICON = 72; // dps
     static final int DEFAULT_GAP_TEXT_ICON = 8; // dps
     private static final int DEFAULT_HEIGHT = 48; // dps
-    private static final int TAB_MIN_WIDTH_MARGIN = 56; //dps
+    private static final int TAB_MIN_WIDTH_MARGIN = 29; //dps
     public static final int MODE_SCROLLABLE = 0;
     private static final int INVALID_WIDTH = -1;
     static final int FIXED_WRAP_GUTTER_MIN = 16; //dps
@@ -92,7 +93,7 @@ public class JSTabLayout extends HorizontalScrollView {
     private ViewPager mViewPager;
     private TabLayoutOnPageChangeListener mPageChangeListener;
     private AdapterChangeListener mAdapterChangeListener;
-    private ViewPagerOnTabSelectedListener mCurrentVpSelectedListener;
+    private OnTabSelectedListener mCurrentVpSelectedListener;
     private boolean mSetupViewPagerImplicitly;
     private final SlidingTabStrip mTabStrip;
     private PagerAdapter mPagerAdapter;
@@ -170,28 +171,28 @@ public class JSTabLayout extends HorizontalScrollView {
         super.addView(mTabStrip, 0, new HorizontalScrollView.LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 
-        TypedArray a = context.obtainStyledAttributes(attrs, android.support.design.R.styleable.TabLayout,
-                defStyleAttr, android.support.design.R.style.Widget_Design_TabLayout);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.JSTabLayout,
+                defStyleAttr, R.style.Widget_Design_TabLayout);
 
         mTabStrip.setSelectedIndicatorHeight(
-                a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabIndicatorHeight, 0));
-        mTabStrip.setSelectedIndicatorColor(a.getColor(android.support.design.R.styleable.TabLayout_tabIndicatorColor, 0));
+                a.getDimensionPixelSize(R.styleable.JSTabLayout_tabIndicatorHeight, 0));
+        mTabStrip.setSelectedIndicatorColor(a.getColor(R.styleable.JSTabLayout_tabIndicatorColor, 0));
 
         mTabPaddingStart = mTabPaddingTop = mTabPaddingEnd = mTabPaddingBottom = a
-                .getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPadding, 0);
-        mTabPaddingStart = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingStart,
+                .getDimensionPixelSize(R.styleable.JSTabLayout_tabPadding, 0);
+        mTabPaddingStart = a.getDimensionPixelSize(R.styleable.JSTabLayout_tabPaddingStart,
                 mTabPaddingStart);
-        mTabPaddingTop = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingTop,
+        mTabPaddingTop = a.getDimensionPixelSize(R.styleable.JSTabLayout_tabPaddingTop,
                 mTabPaddingTop);
-        mTabPaddingEnd = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingEnd,
+        mTabPaddingEnd = a.getDimensionPixelSize(R.styleable.JSTabLayout_tabPaddingEnd,
                 mTabPaddingEnd);
-        mTabPaddingBottom = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingBottom,
+        mTabPaddingBottom = a.getDimensionPixelSize(R.styleable.JSTabLayout_tabPaddingBottom,
                 mTabPaddingBottom);
 
-        mTabTextAppearance = a.getResourceId(android.support.design.R.styleable.TabLayout_tabTextAppearance,
-                android.support.design.R.style.TextAppearance_Design_Tab);
+        mTabTextAppearance = a.getResourceId(R.styleable.JSTabLayout_tabTextAppearance,
+                R.style.TextAppearance_Design_Tab);
 
-        mTabBackgroundResId = a.getResourceId(android.support.design.R.styleable.TabLayout_tabBackground, 0);
+        mTabBackgroundResId = a.getResourceId(R.styleable.JSTabLayout_tabBackground, 0);
         // Text colors/sizes come from the text appearance first
         final TypedArray ta = context.obtainStyledAttributes(mTabTextAppearance,
                 android.support.v7.appcompat.R.styleable.TextAppearance);
@@ -204,33 +205,33 @@ public class JSTabLayout extends HorizontalScrollView {
             ta.recycle();
         }
 
-        if (a.hasValue(android.support.design.R.styleable.TabLayout_tabTextColor)) {
+        if (a.hasValue(R.styleable.JSTabLayout_tabTextColor)) {
             // If we have an explicit text color set, use it instead
-            mTabTextColors = a.getColorStateList(android.support.design.R.styleable.TabLayout_tabTextColor);
+            mTabTextColors = a.getColorStateList(R.styleable.JSTabLayout_tabTextColor);
         }
 
-        if (a.hasValue(android.support.design.R.styleable.TabLayout_tabSelectedTextColor)) {
+        if (a.hasValue(R.styleable.JSTabLayout_tabSelectedTextColor)) {
             // We have an explicit selected text color set, so we need to make merge it with the
             // current colors. This is exposed so that developers can use theme attributes to set
             // this (theme attrs in ColorStateLists are Lollipop+)
-            final int selected = a.getColor(android.support.design.R.styleable.TabLayout_tabSelectedTextColor, 0);
+            final int selected = a.getColor(R.styleable.JSTabLayout_tabSelectedTextColor, 0);
             mTabTextColors = createColorStateList(mTabTextColors.getDefaultColor(), selected);
         }
 
-        mRequestedTabMinWidth = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabMinWidth,
+        mRequestedTabMinWidth = a.getDimensionPixelSize(R.styleable.JSTabLayout_tabMinWidth,
                 INVALID_WIDTH);
-        mRequestedTabMaxWidth = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabMaxWidth,
+        mRequestedTabMaxWidth = a.getDimensionPixelSize(R.styleable.JSTabLayout_tabMaxWidth,
                 INVALID_WIDTH);
 
-        mContentInsetStart = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabContentStart, 0);
-        mMode = a.getInt(android.support.design.R.styleable.TabLayout_tabMode, MODE_FIXED);
-        mTabGravity = a.getInt(android.support.design.R.styleable.TabLayout_tabGravity, GRAVITY_FILL);
+        mContentInsetStart = a.getDimensionPixelSize(R.styleable.JSTabLayout_tabContentStart, 0);
+        mMode = a.getInt(R.styleable.JSTabLayout_tabModeJS, MODE_FIXED);
+        mTabGravity = a.getInt(R.styleable.JSTabLayout_tabGravityJS, GRAVITY_FILL);
         a.recycle();
 
         // TODO add attr for these
         final Resources res = getResources();
-        mTabTextMultiLineSize = res.getDimensionPixelSize(android.support.design.R.dimen.design_tab_text_size_2line);
-        mScrollableTabMinWidth = res.getDimensionPixelSize(android.support.design.R.dimen.design_tab_scrollable_min_width);
+        mTabTextMultiLineSize = res.getDimensionPixelSize(R.dimen.design_tab_text_size_2line);
+        mScrollableTabMinWidth = res.getDimensionPixelSize(R.dimen.henry_width);
 
         // Now apply the tab mode and gravity
         applyModeAndGravity();
@@ -352,17 +353,6 @@ public class JSTabLayout extends HorizontalScrollView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        @SuppressLint("DrawAllocation") Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#ff0000"));
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
-        paint.setTextSize(40);
-      /*  canvas.drawText("电视盒子", 50, 50, paint);
-        canvas.drawText("手机", 250, 50, paint);
-        canvas.drawText("子弹头", 350, 50, paint);
-        canvas.drawText("书籍", 500, 50, paint);
-        canvas.drawText("鼠标", 600, 50, paint);
-        canvas.save();*/
     }
 
     public void setupWithViewPager(ViewPager vp1) {
@@ -398,7 +388,7 @@ public class JSTabLayout extends HorizontalScrollView {
             viewPager.addOnPageChangeListener(mPageChangeListener);
 
             // Now we'll add a tab selected listener to set ViewPager's current item
-            mCurrentVpSelectedListener = new JSTabLayout.ViewPagerOnTabSelectedListener(viewPager);
+            mCurrentVpSelectedListener = new ViewPagerOnTabSelectedListener(viewPager);
             addOnTabSelectedListener(mCurrentVpSelectedListener);
 
             final PagerAdapter adapter = viewPager.getAdapter();
@@ -475,12 +465,14 @@ public class JSTabLayout extends HorizontalScrollView {
         populateFromPagerAdapter();
     }
 
-    private void addOnTabSelectedListener(ViewPagerOnTabSelectedListener mCurrentVpSelectedListener) {
-
+    private void addOnTabSelectedListener(OnTabSelectedListener listener) {
+        if (!mSelectedListeners.contains(listener)) {
+            mSelectedListeners.add(listener);
+        }
     }
 
-    private void removeOnTabSelectedListener(ViewPagerOnTabSelectedListener mCurrentVpSelectedListener) {
-
+    private void removeOnTabSelectedListener(OnTabSelectedListener listener) {
+        mSelectedListeners.remove(listener);
     }
 
     public static class TabLayoutOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -540,7 +532,7 @@ public class JSTabLayout extends HorizontalScrollView {
     }
 
     private int getTabCount() {
-        return  mTabs.size();
+        return mTabs.size();
     }
 
     private class AdapterChangeListener implements ViewPager.OnAdapterChangeListener {
@@ -562,25 +554,25 @@ public class JSTabLayout extends HorizontalScrollView {
         }
     }
 
-    public static class ViewPagerOnTabSelectedListener implements TabLayout.OnTabSelectedListener {
+    public static class ViewPagerOnTabSelectedListener implements OnTabSelectedListener {
         private final ViewPager mViewPager;
 
-        public ViewPagerOnTabSelectedListener(ViewPager viewPager) {
+        ViewPagerOnTabSelectedListener(ViewPager viewPager) {
             mViewPager = viewPager;
         }
 
         @Override
-        public void onTabSelected(TabLayout.Tab tab) {
+        public void onTabSelected(Tab tab) {
             mViewPager.setCurrentItem(tab.getPosition());
         }
 
         @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
+        public void onTabUnselected(Tab tab) {
             // No-op
         }
 
         @Override
-        public void onTabReselected(TabLayout.Tab tab) {
+        public void onTabReselected(Tab tab) {
             // No-op
         }
     }
@@ -1084,6 +1076,7 @@ public class JSTabLayout extends HorizontalScrollView {
                     // If the tabs fit within our width minus gutters, we will set all tabs to have
                     // the same width
                     for (int i = 0; i < count; i++) {
+                        //不平均分配
                         final LinearLayout.LayoutParams lp =
                                 (LinearLayout.LayoutParams) getChildAt(i).getLayoutParams();
                         if (lp.width != largestTabWidth || lp.weight != 0) {
@@ -1229,11 +1222,26 @@ public class JSTabLayout extends HorizontalScrollView {
         public void draw(Canvas canvas) {
             super.draw(canvas);
 
-            // Thick colored underline below the current selection
+            /*// Thick colored underline below the current selection
             if (mIndicatorLeft >= 0 && mIndicatorRight > mIndicatorLeft) {
                 canvas.drawRect(mIndicatorLeft, getHeight() - mSelectedIndicatorHeight,
                         mIndicatorRight, getHeight(), mSelectedIndicatorPaint);
+            }*/
+        }
+
+        @Override
+        protected void dispatchDraw(Canvas canvas) {
+            // Thick colored underline below the current selection
+            RectF r2 = new RectF();                           //RectF对象
+            r2.left = mIndicatorLeft;                                 //左边
+            r2.top = (getHeight() - mSelectedIndicatorHeight) / 2;    //上边
+            r2.right = mIndicatorRight;                                   //右边
+            r2.bottom = r2.top + mSelectedIndicatorHeight;
+            mSelectedIndicatorPaint.setAntiAlias(true);
+            if (mIndicatorLeft >= 0 && mIndicatorRight > mIndicatorLeft) {
+                canvas.drawRoundRect(r2, mSelectedIndicatorHeight / 2, mSelectedIndicatorHeight / 2, mSelectedIndicatorPaint);
             }
+            super.dispatchDraw(canvas);
         }
     }
 
@@ -1333,6 +1341,7 @@ public class JSTabLayout extends HorizontalScrollView {
             tab.select();
         }
     }
+
     private void addTabView(Tab tab) {
         final TabView tabView = tab.mView;
         mTabStrip.addView(tabView, tab.getPosition(), createLayoutParamsForTabs());
@@ -1482,12 +1491,13 @@ public class JSTabLayout extends HorizontalScrollView {
             final int widthMeasureSpec;
             final int heightMeasureSpec = origHeightMeasureSpec;
 
-            if (maxWidth > 0 && (specWidthMode == MeasureSpec.UNSPECIFIED
+            /*if (maxWidth > 0 && (specWidthMode == MeasureSpec.UNSPECIFIED
                     || specWidthSize > maxWidth)) {
                 // If we have a max width and a given spec which is either unspecified or
                 // larger than the max width, update the width spec using the same mode
                 widthMeasureSpec = MeasureSpec.makeMeasureSpec(mTabMaxWidth, MeasureSpec.AT_MOST);
-            } else {
+//                widthMeasureSpec = MeasureSpec.makeMeasureSpec(origWidthMeasureSpec, MeasureSpec.EXACTLY);
+            } else*/ {
                 // Else, use the original width spec
                 widthMeasureSpec = origWidthMeasureSpec;
             }
@@ -1683,6 +1693,7 @@ public class JSTabLayout extends HorizontalScrollView {
     private int getTabMaxWidth() {
         return mTabMaxWidth;
     }
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();

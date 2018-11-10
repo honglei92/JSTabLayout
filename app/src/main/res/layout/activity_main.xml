@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,9 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tb1"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        app:tabMode="scrollable" />
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp1"
@@ -20,7 +23,14 @@
     <com.example.a83661.jstablayout.JSTabLayout
         android:id="@+id/tb2"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        app:tabBackground="@null"
+        app:tabIndicatorColor="#E58D7F"
+        app:tabIndicatorHeight="26dp"
+        app:tabModeJS="scrollable"
+        app:tabSelectedTextColor="#ffffff"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="#333333" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp2"
