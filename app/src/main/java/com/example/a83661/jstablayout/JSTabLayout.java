@@ -1174,7 +1174,10 @@ public class JSTabLayout extends HorizontalScrollView {
                 startLeft = mIndicatorLeft;
                 startRight = mIndicatorRight;
             } else {
-                // Else, we'll just grow from the nearest edge
+                startLeft = mIndicatorLeft;
+                startRight = mIndicatorRight;
+
+               /* // Else, we'll just grow from the nearest edge
                 final int offset = dpToPx(MOTION_NON_ADJACENT_OFFSET);
                 if (position < mSelectedPosition) {
                     // We're going end-to-start
@@ -1190,7 +1193,7 @@ public class JSTabLayout extends HorizontalScrollView {
                     } else {
                         startLeft = startRight = targetLeft - offset;
                     }
-                }
+                }*/
             }
 
             if (startLeft != targetLeft || startRight != targetRight) {
