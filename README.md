@@ -24,6 +24,7 @@
         android:layout_weight="1" />
 ```
 2.acitivity
+
 ```
  @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +67,9 @@
         vp2.setAdapter(fragmentPagerAdapter);
         tb2.setupWithViewPager(vp2);
     }
+    ```
 
-    
-    其余的参考我的工程文件，需要的自取。
+    ####其余的参考我的工程文件，需要的自取。
     
     ![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/JSTabLayout.gif)
     
