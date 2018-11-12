@@ -20,7 +20,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.example.a83661.jstablayout.JSTabLayout
+    <com.honglei.jstablayout.JSTabLayout
         android:id="@+id/tb2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
