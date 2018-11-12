@@ -68,6 +68,6 @@
     }
     ```
     其余的参考我的工程文件，需要的自取。
-    ![image](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/JSTabLayout.gif)
+    ![avatar](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/JSTabLayout.gif)
     
     ![image](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/jianshu.gif)
