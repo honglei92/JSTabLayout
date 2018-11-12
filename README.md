@@ -73,3 +73,7 @@
     
     ![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/jianshu.gif)
     
+    ![Image text](https://raw.githubusercontent.com/honglei92/JSTabLayout/master/screenshoot/jstblayout.png)
+    
+   
+    
