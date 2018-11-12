@@ -72,9 +72,7 @@
 其余的参考我的工程文件，需要的自取。
     
 ![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/JSTabLayout.gif)
-    
-![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/jianshu.gif)
-    
+        
 ![Image text](https://raw.githubusercontent.com/honglei92/JSTabLayout/master/screenshoot/jstblayout.png)
     
    
