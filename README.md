@@ -1,5 +1,6 @@
 # JSTabLayout
 仿照简书tablayout做得效果
+博客链接：https://www.jianshu.com/p/76a8a5e88460
 
 使用方式
 
