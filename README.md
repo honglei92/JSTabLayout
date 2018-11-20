@@ -1,5 +1,12 @@
 # JSTabLayout
 仿照简书tablayout做得效果
+博客链接：https://www.jianshu.com/p/76a8a5e88460
+    
+![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/jianshu.gif)
+        
+![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/JSTabLayout.gif)
+    
+![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/Screenshot_1542029939.png)
 
 使用方式
 
@@ -70,10 +77,5 @@
 ```
 
 其余的参考我的工程文件，需要的自取。
-    
-![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/jianshu.gif)
-        
-![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/JSTabLayout.gif)
-    
-![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/Screenshot_1542029939.png)
+
     
