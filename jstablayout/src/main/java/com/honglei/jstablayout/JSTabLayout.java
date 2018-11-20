@@ -121,6 +121,9 @@ public class JSTabLayout extends HorizontalScrollView {
 
     private final ArrayList<OnTabSelectedListener> mSelectedListeners = new ArrayList<>();
 
+    float mTempPositionOffset = 0;
+
+
     /**
      * Callback interface invoked when a tab's selection state changes.
      */
@@ -422,7 +425,13 @@ public class JSTabLayout extends HorizontalScrollView {
 
     void setScrollPosition(int position, float positionOffset, boolean updateSelectedText,
                            boolean updateIndicatorPosition) {
-        final int roundedPosition = Math.round(position + positionOffset);
+        final int roundedPosition;
+        if (positionOffset > mTempPositionOffset) {
+            roundedPosition = Math.round(position + positionOffset - 0.4f);
+        } else {
+            roundedPosition = Math.round(position + positionOffset + 0.4f);
+        }
+        mTempPositionOffset = positionOffset;
         if (roundedPosition < 0 || roundedPosition >= mTabStrip.getChildCount()) {
             return;
         }
@@ -1499,7 +1508,8 @@ public class JSTabLayout extends HorizontalScrollView {
                 // larger than the max width, update the width spec using the same mode
                 widthMeasureSpec = MeasureSpec.makeMeasureSpec(mTabMaxWidth, MeasureSpec.AT_MOST);
 //                widthMeasureSpec = MeasureSpec.makeMeasureSpec(origWidthMeasureSpec, MeasureSpec.EXACTLY);
-            } else*/ {
+            } else*/
+            {
                 // Else, use the original width spec
                 widthMeasureSpec = origWidthMeasureSpec;
             }
