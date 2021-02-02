@@ -1,6 +1,6 @@
 # JSTabLayout
 仿照简书tablayout做得效果
-博客链接：https://www.jianshu.com/p/76a8a5e88460
+博客链接：https://blog.csdn.net/wanghonglei01/article/details/113537066
     
 ![Image text](https://github.com/honglei92/JSTabLayout/blob/master/screenshoot/jianshu.gif)
         
