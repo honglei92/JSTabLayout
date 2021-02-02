@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.honglei.jstablayout.JSTabLayout;
+import com.honglei.jstablayout.NewsTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
     List<String> titles = new ArrayList<>();
     TabLayout tb1;
     JSTabLayout tb2;
-    ViewPager vp1, vp2;
+    NewsTabLayout tb3;
+    ViewPager vp1, vp2, vp3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
         titles.add("子弹头");
         tb1 = findViewById(R.id.tb1);
         tb2 = findViewById(R.id.tb2);
+        tb3 = findViewById(R.id.tb3);
         vp1 = findViewById(R.id.vp1);
         vp2 = findViewById(R.id.vp2);
+        vp3 = findViewById(R.id.vp3);
         inittb1();
         inittb2();
+        inittb3();
 
     }
 
@@ -59,6 +64,28 @@ public class MainActivity extends AppCompatActivity {
         };
         vp2.setAdapter(fragmentPagerAdapter);
         tb2.setupWithViewPager(vp2);
+    }
+
+    private void inittb3() {
+        FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return MyFragment.newInstance(position);
+            }
+
+            @Override
+            public int getCount() {
+                return titles.size();
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles.get(position);
+            }
+        };
+        vp3.setAdapter(fragmentPagerAdapter);
+        tb3.setupWithViewPager(vp3);
     }
 
     private void inittb1() {

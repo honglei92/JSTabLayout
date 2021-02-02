@@ -38,4 +38,23 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <com.honglei.jstablayout.NewsTabLayout
+        android:id="@+id/tb3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tabBackground="@null"
+        app:tabIndicatorColor="#FF3E49"
+        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorWidth="6dp"
+        app:tabModeJS="scrollable"
+        app:tabSelectedTextColor="#FF3E49"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="#727272" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
 </LinearLayout>
