@@ -82,6 +82,7 @@ public class NewsTabLayout extends HorizontalScrollView {
     private int mRequestedTabMinWidth;
     private int mScrollableTabMinWidth;
     private int mRequestedTabMaxWidth;
+    private OnTabSelectedListener mSelectedListener;
 
     @RestrictTo(LIBRARY_GROUP)
     @IntDef(value = {MODE_SCROLLABLE, MODE_FIXED})
@@ -473,6 +474,21 @@ public class NewsTabLayout extends HorizontalScrollView {
 
         // Finally make sure we reflect the new adapter
         populateFromPagerAdapter();
+    }
+
+    @Deprecated
+    public void setOnTabSelectedListener(@Nullable OnTabSelectedListener listener) {
+        // The logic in this method emulates what we had before support for multiple
+        // registered listeners.
+        if (mSelectedListener != null) {
+            removeOnTabSelectedListener(mSelectedListener);
+        }
+        // Update the deprecated field so that we can remove the passed listener the next
+        // time we're called
+        mSelectedListener = listener;
+        if (listener != null) {
+            addOnTabSelectedListener(listener);
+        }
     }
 
     private void addOnTabSelectedListener(OnTabSelectedListener listener) {
